@@ -8,4 +8,5 @@
 
 procedure:-
 1.pip install -r requirements.txt
-2.python3 manage.py runserver
+2.cd project
+3.python3 manage.py runserver
