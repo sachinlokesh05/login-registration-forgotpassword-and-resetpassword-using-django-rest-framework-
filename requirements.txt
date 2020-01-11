@@ -2,7 +2,7 @@ autopep8==1.4.4
 certifi==2019.11.28
 chardet==3.0.4
 CodeConvert==3.0.2
-Django==2.2.8
+Django>=2.2
 django-admin==2.0.0
 django-excel-response2==2.0.8
 django-models-ext==1.1.9
