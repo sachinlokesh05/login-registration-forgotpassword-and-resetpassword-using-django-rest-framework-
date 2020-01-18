@@ -27,8 +27,8 @@ SECRET_KEY = 't$*&j*bb-7utf)9_v%qrld00*$^twa7b*n)(x=jp#f60-#c6&j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-AUTH_ENDPOINT = "http://127.0.0.1:8000/api/token"
+ALLOWED_HOSTS = ['*']
+AUTH_ENDPOINT = "http://127.0.0.1:8001/api/token"
 
 # Application definition
 
@@ -194,11 +194,11 @@ JWT_AUTH = {
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=600),
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
 
-    'JWT_ALLOW_REFRESH': True,
+    'JWT_ALLOW_REFRESH': False,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',

@@ -5,12 +5,14 @@ from .views import (
     DeleteNoteAPIView,
     DetailAndDeleteNoteAPIView,
     CreateLabelAPIView,
-    RetrieveUpdateNoteAPIView
+    RetrieveUpdateNoteAPIView,
+    NoteCreate
 )
 from django.urls import path
 
 urlpatterns = [
     path('create-note', CreateNoteAPIView.as_view(), name='create-note'),
+    path('create-note1/', NoteCreate.as_view(), name='create-note1'),
     path('create-label', CreateLabelAPIView.as_view(), name='label-note'),
     path('list/', ListNoteAPIView.as_view(), name='list-note'),
     path('get/<int:pk>', DetailNoteAPIView.as_view(), name='get-note'),

@@ -4,6 +4,8 @@ from django.core.mail import EmailMessage
 from django_short_url.models import ShortURL
 from rest_framework.exceptions import ValidationError
 from smtplib import SMTPAuthenticationError
+from django.core.mail import EmailMultiAlternatives
+from project.settings import EMAIL_HOST
 from jwt import ExpiredSignatureError
 from django_short_url.views import get_surl
 from django_short_url.models import ShortURL
@@ -61,7 +63,9 @@ User = get_user_model()
 
 class Login(GenericAPIView):
     serializer_class = LoginSerializers
-
+    # def get(self,request):
+    #     return render(request,'email_validation.html')
+    
     def post(self, request):
         permission_classes = [permissions.AllowAny]
         if request.user.is_authenticated:
@@ -132,11 +136,17 @@ class Registration(GenericAPIView):
                 'domain': get_current_site(request).domain,
                 'surl': z[2]
             })
-            print(mail_message)
             recipient_email = user.email
-            email = EmailMessage(
-                mail_subject, mail_message, to=[recipient_email])
-            email.send()
+            subject, from_email, to = 'greeting from fundoo,Activate your account by clicking below link', EMAIL_HOST, recipient_email
+            msg = EmailMultiAlternatives(subject, mail_message, from_email, [to])
+            msg.attach_alternative(mail_message, "text/html")
+            msg.send()
+            # template_html = "email_validation.html"
+            # print(mail_message)
+            
+            # email = EmailMessage(
+            #     mail_subject, mail_message, to=[recipient_email])
+            # email.send()
             return Response({"response": response,
                              "details": "verify through your email"})
 
@@ -157,7 +167,7 @@ def activate(request, surl):
         if user is not None:
             user.is_active = True
             user.save()
-            return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+            return redirect('login')
         else:
             return HttpResponse('not valid user')
     except KeyError as e:
@@ -166,6 +176,17 @@ def activate(request, surl):
         return HttpResponse(f)
 
 
+                # email_context = Context({ 'contact': contact, 'amount': amount})
+
+                # subject, from_email, to = 'Deposit Successfully created.', settings.EMAIL_HOST_USER, contact_email
+                # text_content = "Thank you for depositing the amount of " + str(amount) + "."
+
+                # html = loader.get_template(template_html)
+                # html_content = html.render(email_context)
+                # msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                # msg.attach_alternative(html_content, "text/html")
+                # msg.send()
+                
 class Logout(GenericAPIView):
     serializer_class = LoginSerializers
 
@@ -212,9 +233,13 @@ class Forgotpassword(GenericAPIView):
                     })
                     print(mail_message)
                     recipient_email = user_email
-                    email = EmailMessage(
-                        mail_subject, mail_message, to=[recipient_email])
-                    email.send()
+                    subject, from_email, to = 'greeting from fundoo,Activate your account by clicking below link', EMAIL_HOST, recipient_email
+                    msg = EmailMultiAlternatives(subject, mail_message, from_email, [to])
+                    msg.attach_alternative(mail_message, "text/html")
+                    msg.send()
+                    # email = EmailMessage(
+                    #     mail_subject, mail_message, to=[recipient_email])
+                    # email.send()
                     return Response({'details': 'please check your email,link has sent your email'})
             except:
                 return Response({'details': 'something went wrong'})
@@ -237,14 +262,14 @@ def reset_password(request, surl):
             return redirect('/resetpassword/' + str(user)+'/')
         else:
             messages.info(request, 'was not able to sent the email')
-            return redirect('/api/forgotpassword')
+            return redirect('forgotpassword')
     except KeyError:
         messages.info(request, 'was not able to sent the email')
-        return redirect('/api/forgotpassword')
+        return redirect('forgotpassword')
     except Exception as e:
         print(e)
         messages.info(request, 'activation link expired')
-        return redirect('/api/forgotpassword')
+        return redirect('forgotpassword')
 
 
 class ResetPassword(GenericAPIView):
@@ -257,8 +282,8 @@ class ResetPassword(GenericAPIView):
             return Response({'details': 'not a valid user'})
         elif (password1 or password2) == "":
             return Response({'details': 'password should not be empty'})
-            # elif (password1 != password2):
-            #     return Response({'details': 'password are should match'})
+        # elif (password1 != password2):
+        #     return Response({'details': 'password are should match'})
         else:
             try:
                 user = User.objects.get(username=user_reset)
