@@ -22,13 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 't$*&j*bb-7utf)9_v%qrld00*$^twa7b*n)(x=jp#f60-#c6&j'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-AUTH_ENDPOINT = "http://127.0.0.1:8001/api/token"
+AUTH_ENDPOINT = os.getenv('AUTH_ENDPOINT_fundoo')
 
 # Application definition
 
@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django_short_url',
     'rest_auth',
     'django.contrib.sites',
-    'note'
+    'note',
+    'rest_framework_swagger'
 
 ]
 
@@ -111,6 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
 
 
 # Internationalization
