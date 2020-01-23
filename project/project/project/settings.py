@@ -45,12 +45,24 @@ INSTALLED_APPS = [
     'rest_auth',
     'django.contrib.sites',
     'note',
-    'rest_framework_swagger'
+    'rest_framework_swagger',
+    'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',  # new
+
+    'social_django'
+    # 'rest_auth',
 
 ]
 
-SITE_ID = 1
+# REST_USE_JWT = True
 
+
+SITE_ID = 3
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -64,6 +76,17 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'project.urls'
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'social_core.backends.instagram.InstagramOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+
+    "allauth.account.auth_backends.AuthenticationBackend",
+
+
+]
 
 TEMPLATES = [
     {
@@ -247,3 +270,21 @@ CACHES = {
 }
 # Cache time to live is 15 minutes.
 # CACHE_TTL = 60 * 15
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv('SOCIAL_AUTH_FACEBOOK_KEY')
+""
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv('SOCIAL_AUTH_FACEBOOK_SECRET')
+""
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
+SOCIAL_AUTH_GITHUB_KEY = os.getenv('SOCIAL_AUTH_GITHUB_KEY')
+""
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv('SOCIAL_AUTH_GITHUB_SECRET')
+""
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/settings/'
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+# LOGIN_URL = 'login'
+# LOGOUT_URL = 'logout'
+# LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = 'home'

@@ -54,14 +54,33 @@ jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
+#social_auth
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from rest_auth.registration.views import SocialLoginView
+
+#github code uses
+from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from rest_auth.registration.views import SocialLoginView
 
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+from django.views.generic import TemplateView
 
 
 User = get_user_model()
 
+# class GithubLogin(SocialLoginView):
+#     adapter_class = GitHubOAuth2Adapter
+#     callback_url = CALLBACK_URL_YOU_SET_ON_GITHUB
+#     client_class = OAuth2Client
+class Home(TemplateView):
+    template_name = 'index.html'
 
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+    
 class Login(GenericAPIView):
     serializer_class = LoginSerializers
     # def get(self,request):
@@ -105,7 +124,7 @@ class Registration(GenericAPIView):
         email = data.get('email')
         password1 = data.get('password1')
         password2 = data.get('password2')
-        if len(password1) < 4 or len(password2) <123 4:
+        if len(password1) < 4 or len(password2) <4:
             return Response("length of the password must be greater than 4") 
         elif password1 != password2:
             return Response("passwords are not matching")
