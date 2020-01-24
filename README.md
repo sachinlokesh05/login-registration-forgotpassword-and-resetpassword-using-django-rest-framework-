@@ -11,7 +11,7 @@
 7. allauth.account
 8. rest_auth.registration
 9. allauth.socialaccount
-10.jQuery
+10. jQuery
 
 procedure:-
 1.pip install -r requirements.txt
