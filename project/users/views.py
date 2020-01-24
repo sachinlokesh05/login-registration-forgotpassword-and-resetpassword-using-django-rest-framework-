@@ -118,7 +118,9 @@ class Login(GenericAPIView):
 
 class Registration(GenericAPIView):
     serializer_class = RegistrationSerializers
-
+    def get(self, request):
+        return render(request,'registration.html')
+    
     def post(self, request):
         if request.user.is_authenticated:
             return Response("your are already registred,please do login")
@@ -127,6 +129,7 @@ class Registration(GenericAPIView):
         email = data.get('email')
         password1 = data.get('password1')
         password2 = data.get('password2')
+        print(password1)
         if len(password1) < 4 or len(password2) <4:
             return Response("length of the password must be greater than 4") 
         elif password1 != password2:
