@@ -1,17 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
   </head>
   <body>
-    <form action="" method="POST">
-      {% csrf_token %}
-      <input type="text" name="username" />
-      <input type="text" name="password" />
-      <input type="submit" />submit
-    </form>
+    <div>
+      <div>
+        Login
+      </div>
+      <div>
+        <form class="form-inline" id="new_user_form" action="">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input class="form-control" type="text" id="username" />
+            <!-- <span class="mdl-textfield__error"></span> -->
+          </div>
+          <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input class="form-control" type="password" id="password" />
+            <!-- <span class="mdl-textfield__error"></span> -->
+          </div>
+          <button class="btn btn-default" type="submit" name="" id="submit">
+            SUBMIT
+          </button>
+        </form>
+      </div>
+    </div>
+    <script type="text/javascript">
+      $(document).on("submit", "#new_user_form", function(e) {
+        e.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "{% url 'login' %}",
+          data: {
+            username: $("#username").val(),
+            email: $("#email").val(),
+            password: $("#password").val(),
+            csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+          },
+          success: function() {
+            window.location = "{% url 'create-note' %}";
+          }
+        });
+      });
+    </script>
   </body>
 </html>

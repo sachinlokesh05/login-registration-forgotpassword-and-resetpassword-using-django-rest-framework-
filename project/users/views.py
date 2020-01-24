@@ -54,27 +54,49 @@ jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 
+#social_auth
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from rest_auth.registration.views import SocialLoginView
+
+#github code uses
+from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from rest_auth.registration.views import SocialLoginView
 
 
 CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+from django.views.generic import TemplateView
 
 
 User = get_user_model()
 
+# class GithubLogin(SocialLoginView):
+#     adapter_class = GitHubOAuth2Adapter
+#     callback_url = CALLBACK_URL_YOU_SET_ON_GITHUB
+#     client_class = OAuth2Client
+class Home(TemplateView):
+    template_name = 'index.html'
 
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+    
 class Login(GenericAPIView):
     serializer_class = LoginSerializers
     # def get(self,request):
-    #     return render(request,'email_validation.html')
+    # #     return render(request,'email_validation.html')
+    def get(self,request):
+        return render(request,'login.html')
     
     def post(self, request):
         permission_classes = [permissions.AllowAny]
-        if request.user.is_authenticated:
+        if request.user.is_authenticated :
             return Response({'details': 'user is already authenticated'})
         data = request.data
         username = data.get('username')
         password = data.get('password')
         user = authenticate(username=username, password=password)
+        print(username,password)
         qs = User.objects.filter(
             Q(username__iexact=username) or
             Q(email__iexact=email)
@@ -83,15 +105,15 @@ class Login(GenericAPIView):
             user_obj = qs.first()
             if user_obj.check_password(password):
                 user = user_obj
-                login(request, user)
+                login(request, user,backend='django.contrib.auth.backends.ModelBackend')
                 payload = jwt_payload_handler(user)
                 token = jwt_encode_handler(payload)
                 response = jwt_response_payload_handler(token, user)
                 cache.set(user.username, token)
-                print(cache.get(user.username))
-                return Response({'details': 'user succesfully loggedin,thakyou'})
+                # print(cache.get(user.username))
+                return Response('login')
             return Response("check password again")
-        return Response("multipale users are present with this username")
+        return Response("multiple users are present with this username")
 
 
 class Registration(GenericAPIView):
@@ -105,7 +127,9 @@ class Registration(GenericAPIView):
         email = data.get('email')
         password1 = data.get('password1')
         password2 = data.get('password2')
-        if password1 != password2:
+        if len(password1) < 4 or len(password2) <4:
+            return Response("length of the password must be greater than 4") 
+        elif password1 != password2:
             return Response("passwords are not matching")
         qs_name = User.objects.filter(
             Q(username__iexact=username)
@@ -190,7 +214,6 @@ def activate(request, surl):
                 
 class Logout(GenericAPIView):
     serializer_class = LoginSerializers
-
     def get(self, request):
         try:
             user = request.user
@@ -220,7 +243,7 @@ class Forgotpassword(GenericAPIView):
                 user_email = user.values()[0]['email']
                 user_username = user.values()[0]['username']
                 user_id = user.values()[0]['id']
-                print(user_email, user_id, user_username)
+                # print(user_email, user_id, user_username)
                 if user_email is not None:
                     token = token_activation(user_username, user_id)
                     url = str(token)
@@ -232,7 +255,7 @@ class Forgotpassword(GenericAPIView):
                         'domain': get_current_site(request).domain,
                         'surl': z[2]
                     })
-                    print(mail_message)
+                    # print(mail_message)
                     recipient_email = user_email
                     subject, from_email, to = 'greeting from fundoo,Activate your account by clicking below link', EMAIL_HOST, recipient_email
                     msg = EmailMultiAlternatives(subject, mail_message, from_email, [to])

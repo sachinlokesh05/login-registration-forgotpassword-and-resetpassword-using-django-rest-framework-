@@ -3,7 +3,26 @@ from rest_framework_jwt import views
 from rest_framework_jwt.views import obtain_jwt_token
 from . import views
 from django.contrib.auth import views as auth_views
+
+from rest_auth.registration.views import (
+    SocialAccountListView, SocialAccountDisconnectView
+)
+
 urlpatterns = [
+    path('home/', views.Home.as_view(), name='home'),
+    path('social-auth/', include('social_django.urls', namespace="social")),
+    path(
+        'socialaccounts/',
+        SocialAccountListView.as_view(),
+        name='social_account_list'
+    ),
+    path(
+        'socialaccounts/<int:pk>/disconnect/',
+        SocialAccountDisconnectView.as_view(),
+        name='social_account_disconnect'
+    ),
+    # path('rest-auth/github/', GitHubLogin.as_view(), name='github_login'),
+    path('rest-auth/facebook/', views.FacebookLogin.as_view(), name='fb_login'),
     path('api/auth/', obtain_jwt_token),
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.Logout.as_view(), name='logout'),

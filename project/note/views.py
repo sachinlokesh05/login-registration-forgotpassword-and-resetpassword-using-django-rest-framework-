@@ -21,7 +21,7 @@ class CreateNoteAPIView(generics.CreateAPIView):
     queryset = Note.objects.all()
 
 
-@method_decorator(login_decorator, name='dispatch')
+# @method_decorator(login_decorator, name='dispatch')
 class NoteCreate(GenericAPIView):
     """
         Summary:

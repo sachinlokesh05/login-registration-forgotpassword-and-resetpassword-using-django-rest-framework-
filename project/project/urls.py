@@ -25,6 +25,10 @@ schema_view = get_swagger_view(title="fundoo Docs")
 
 urlpatterns = [
     path('docs/', schema_view),
+    path('accounts/', include('allauth.urls')),
+
+    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('admin/', admin.site.urls),
     path('api/token/', views.ObtainJSONWebToken.as_view(),
          name='token_obtain_pair'),
