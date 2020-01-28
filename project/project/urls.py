@@ -36,5 +36,7 @@ urlpatterns = [
          name='token_refresh'),
     path('', include('users.urls')),
     path('note/', include('note.urls')),
+    path('frontend/', include('frontend.urls')),
+
 
 ]

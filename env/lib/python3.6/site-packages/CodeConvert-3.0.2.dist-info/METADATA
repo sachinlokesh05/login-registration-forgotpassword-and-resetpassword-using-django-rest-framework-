@@ -1,0 +1,71 @@
+Metadata-Version: 2.1
+Name: CodeConvert
+Version: 3.0.2
+Summary: Code Convert for Python 2.x for Humans™
+Home-page: https://github.com/Brightcells/CodeConvert
+Author: Hackathon
+Author-email: kimi.huang@brightcells.com
+License: UNKNOWN
+Keywords: CodeConvert unicode utf8 utf-8 gbk latin1 raw_unicode_escape
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.5
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: six
+
+===========
+CodeConvert
+===========
+
+CodeConvert is a simple code convert script(library) for Python 2.x, built for human beings.
+
+You can call function Convert2Utf8 or Convert2Unicode to exec code convert.
+Or just call function Convert2Utf8_test or Convert2Unicode_test to get code convert’s step.
+
+CodeConvert support convert basestring(str or unicode)/tuple/list/dict/set.
+
+Installation
+============
+
+::
+
+    pip install CodeConvert
+
+
+Usage
+=====
+
+::
+
+    >>> from CodeConvert import CodeConvert as cc
+
+    >>> print cc.Convert2Utf8(u'\xe6\x9c\x80\xe5\x90\x8e\xe4\xb8\x80\xe4\xb8\xaa\xe9\x97\xae\xe9\xa2\x98')
+        最后一个问题
+
+    >>> print cc.Convert2Utf8(u'\\xe6\\x9c\\x80\\xe5\\x90\\x8e\\xe4\\xb8\\x80\\xe4\\xb8\\xaa\\xe9\\x97\\xae\\xe9\\xa2\\x98')
+        最后一个问题
+
+    >>> print cc.Convert2Utf8({'cc': u'\\xe6\\x9c\\x80\\xe5\\x90\\x8e\\xe4\\xb8\\x80\\xe4\\xb8\\xaa\\xe9\\x97\\xae\\xe9\\xa2\\x98'})
+        {'cc': '\xe6\x9c\x80\xe5\x90\x8e\xe4\xb8\x80\xe4\xb8\xaa\xe9\x97\xae\xe9\xa2\x98'}
+
+    >>> print cc.Convert2Utf8(['cc', u'\\xe6\\x9c\\x80\\xe5\\x90\\x8e\\xe4\\xb8\\x80\\xe4\\xb8\\xaa\\xe9\\x97\\xae\\xe9\\xa2\\x98'])
+        ['cc', '\xe6\x9c\x80\xe5\x90\x8e\xe4\xb8\x80\xe4\xb8\xaa\xe9\x97\xae\xe9\xa2\x98']
+
+    >>> print cc.Convert2Utf8(('cc', u'\\xe6\\x9c\\x80\\xe5\\x90\\x8e\\xe4\\xb8\\x80\\xe4\\xb8\\xaa\\xe9\\x97\\xae\\xe9\\xa2\\x98'))
+        ('cc', '\xe6\x9c\x80\xe5\x90\x8e\xe4\xb8\x80\xe4\xb8\xaa\xe9\x97\xae\xe9\xa2\x98')
+
+    >>> print cc.Convert2Utf8(set(('cc', u'\\xe6\\x9c\\x80\\xe5\\x90\\x8e\\xe4\\xb8\\x80\\xe4\\xb8\\xaa\\xe9\\x97\\xae\\xe9\\xa2\\x98')))
+        set(['cc', '\xe6\x9c\x80\xe5\x90\x8e\xe4\xb8\x80\xe4\xb8\xaa\xe9\x97\xae\xe9\xa2\x98'])
+
+    >>> cc = cc.Convert2Utf8_test(u'\xe6\x9c\x80\xe5\x90\x8e\xe4\xb8\x80\xe4\xb8\xaa\xe9\x97\xae\xe9\xa2\x98')
+    >>> u 内含 utf8 编码: obj.encode('raw_unicode_escape')
+
+    >>> cc = cc.Convert2Utf8_test(u'\\xe6\\x9c\\x80\\xe5\\x90\\x8e\\xe4\\xb8\\x80\\xe4\\xb8\\xaa\\xe9\\x97\\xae\\xe9\\xa2\\x98')
+    >>> 双反斜杠字符: obj.decode('string_escape')
+    >>> utf8 编码: obj
+
+

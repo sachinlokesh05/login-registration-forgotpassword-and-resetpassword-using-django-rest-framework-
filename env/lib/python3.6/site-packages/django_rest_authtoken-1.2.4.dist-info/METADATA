@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: django-rest-authtoken
+Version: 1.2.4
+Summary: A simple auth token auth backend for Django Rest Framework storing cryptographically hashed tokens on server-side.
+Home-page: https://github.com/wichmannpas/django-rest-authtoken
+Author: Pascal Wichmann
+Author-email: wichmannpas@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+
+# django-rest-authtoken
+A simple auth token auth backend for Django Rest Framework storing cryptographically hashed tokens on server-side.
+
+

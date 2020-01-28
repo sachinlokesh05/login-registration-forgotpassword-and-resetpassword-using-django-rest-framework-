@@ -1,11 +1,15 @@
 from django.shortcuts import render
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from .models import Note, Label
 from .serializer import NoteSerializer, LabelSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from django.views import View
 from rest_framework.generics import GenericAPIView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.views.decorators.cache import cache_page
+
 
 from .permissions import IsOwnerOrReadOnly
 from rest_framework import generics
@@ -21,7 +25,7 @@ class CreateNoteAPIView(generics.CreateAPIView):
     queryset = Note.objects.all()
 
 
-# @method_decorator(login_decorator, name='dispatch')
+@method_decorator(login_decorator, name='dispatch')
 class NoteCreate(GenericAPIView):
     """
         Summary:
@@ -139,10 +143,13 @@ class NoteCreate(GenericAPIView):
 
 
 class CreateLabelAPIView(generics.CreateAPIView):
+    # permission_classes = [IsAuthenticated]
+    authentication_classes = [JSONWebTokenAuthentication]
     serializer_class = LabelSerializer
     queryset = Label.objects.all()
 
 
+# @method_decorator(cache_page(60 * 15))
 @method_decorator(timeit, name='dispatch')
 class ListNoteAPIView(generics.ListAPIView):
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly,

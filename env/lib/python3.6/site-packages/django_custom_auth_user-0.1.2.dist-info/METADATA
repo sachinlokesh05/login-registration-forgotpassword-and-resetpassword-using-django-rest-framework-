@@ -1,0 +1,80 @@
+Metadata-Version: 2.0
+Name: django-custom-auth-user
+Version: 0.1.2
+Summary: Django custom user
+Home-page: https://github.com/anthon-alindada/django_custom_auth_user
+Author: Anthon Alindada
+Author-email: anthon.alindada.435@gmail.com
+License: MIT
+Keywords: django custom auth user
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 1.10
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Requires-Dist: Django (>=1.8)
+
+Django Custom Auth User
+=======================
+
+.. image:: https://travis-ci.org/anthon-alindada/django_custom_auth_user.svg?branch=master
+    :target: https://travis-ci.org/anthon-alindada/django_custom_auth_user
+
+.. image:: https://codecov.io/gh/anthon-alindada/django_custom_auth_user/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/anthon-alindada/django_custom_auth_user
+
+Django custom user model and abstract user model basic token authentication.
+
+Documentation
+-------------
+
+The full documentation is at https://django_custom_auth_user.readthedocs.io.
+
+Features
+--------
+* Custom user
+* Extendable abstract user
+* User registration service
+* Token authentication
+* Create auth token
+* Delete auth token
+* Query sets for ``User`` & ``AuthToken``
+
+Quickstart
+----------
+
+Install Django custom user::
+
+    pip install django_custom_auth_user
+
+
+Add it to your ``INSTALLED_APPS``::
+
+    INSTALLED_APPS = (
+        ...
+        'custom_auth_user',
+        ...
+    )
+
+Set your ``AUTH_USER_MODEL`` setting to use ``custom_auth_user.User``::
+
+    AUTH_USER_MODEL = 'custom_auth_user.User'
+
+Create the database tables::
+
+    python manage.py migrate
+
+
+Version 0.1 (2017-07-23)
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Initial release.
+
+

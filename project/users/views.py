@@ -57,6 +57,8 @@ jwt_response_payload_handler = api_settings.JWT_RESPONSE_PAYLOAD_HANDLER
 #social_auth
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from rest_auth.registration.views import SocialLoginView
+from django.views.decorators.cache import cache_page
+
 
 #github code uses
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
@@ -80,7 +82,7 @@ class Home(TemplateView):
 
 class FacebookLogin(SocialLoginView):
     adapter_class = FacebookOAuth2Adapter
-    
+
 class Login(GenericAPIView):
     serializer_class = LoginSerializers
     # def get(self,request):

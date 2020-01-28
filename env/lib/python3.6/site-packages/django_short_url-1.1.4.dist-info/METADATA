@@ -1,0 +1,81 @@
+Metadata-Version: 2.1
+Name: django-short-url
+Version: 1.1.4
+Summary: Django WeChat Short URL
+Home-page: https://github.com/django-xxx/django-short-url
+Author: Hackathon
+Author-email: kimi.huang@brightcells.com
+License: UNKNOWN
+Keywords: django-short-url
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Office/Business :: Financial :: Spreadsheet
+Requires-Dist: CodeConvert
+Requires-Dist: django-admin (>=1.2.4)
+Requires-Dist: django-models-ext (>=1.1.1)
+Requires-Dist: furl
+Requires-Dist: shortuuid
+
+================
+django-short-url
+================
+
+Django WeChat Short URL
+
+Installation
+============
+
+::
+
+    pip install django-short-url
+
+
+Usage
+=====
+
+::
+
+    from django_short_url.views import get_surl
+
+    def xxx(request):
+        surl = get_surl(lurl)
+
+
+Urls.py
+=======
+
+::
+
+    urlpatterns = [
+        url(r'^s/', include('django_short_url.urls', namespace='django_short_url')),
+    ]
+
+
+or::
+
+    urlpatterns = [
+        url(r'^(?P<surl>\w+)', surl_views.short_url_redirect, name='short_url_redirect'),
+    ]
+
+
+Settings.py
+===========
+
+::
+
+    INSTALLED_APPS = (
+        ...
+        'django_short_url',
+        ...
+    )
+
+    # Redirect url when short url not exists
+    DJANGO_SHORT_URL_REDIRECT_URL = ''
+
+
+

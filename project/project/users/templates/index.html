@@ -1,6 +1,0 @@
-{% load socialaccount %} {% if user.is_authenticated %}
-<p>Welcome {{ user.username }}!</p>
-{% else %}
-<a href="{% provider_login_url 'github' %}">Sign Up</a>
-<a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
-{% endif %}

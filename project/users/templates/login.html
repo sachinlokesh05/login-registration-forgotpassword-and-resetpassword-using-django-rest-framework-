@@ -54,7 +54,10 @@
             csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
           },
           success: function() {
-            window.location = "{% url 'create-note' %}";
+            window.location = "{% url 'login' %}";
+          },
+          error: function() {
+            alert("nooooo!!!");
           }
         });
       });

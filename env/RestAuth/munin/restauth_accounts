@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+#
+# -*- coding: utf-8 -*-
+#
+# This file is part of RestAuth (https://restauth.net).
+#
+# RestAuth is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# RestAuth is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with RestAuth.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+# Watch number of accounts on RestAuth.
+#
+#%# family=auto
+#%# capabilities=autoconf
+
+import os
+import sys
+
+from collections import defaultdict
+
+if 'DJANGO_SETTINGS_MODULE' not in os.environ:
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'RestAuth.settings'
+
+if len(sys.argv) > 1 and sys.argv[1] == 'autoconf':
+    try:
+        from django.conf import settings
+        dir(settings)
+
+        print('yes')
+        sys.exit(0)
+    except ImportError:
+        print('no (cannot import django settings)')
+        sys.exit(1)
+
+from django.utils import six
+
+from Users.models import ServiceUser
+
+algos = defaultdict(int)
+
+for pwd_hash in ServiceUser.objects.values_list('password', flat=True):
+    algos[pwd_hash.split('$', 1)[0]] += 1
+
+if len(sys.argv) > 1 and sys.argv[1] == 'config':
+    print("""graph_title Number of RestAuth accounts
+graph_args --base 1000 -l 0
+graph_vlabel no. of accounts
+graph_category restauth
+total.label total no. of accounts""")
+
+    for algo in six.iterkeys(algos):
+        print('%s.label no. of accounts with %s hash' % (algo, algo))
+    sys.exit(0)
+
+total = 0
+for algo, count in six.iteritems(algos):
+    print('%s.value %s' % (algo, count))
+    total += count
+
+print('total.value %s' % total)

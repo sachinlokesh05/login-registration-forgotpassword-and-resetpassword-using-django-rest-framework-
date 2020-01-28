@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'rest_auth',
     'django.contrib.sites',
     'note',
+
+    # front-end application
+    'frontend',
     'rest_framework_swagger',
     'rest_framework.authtoken',
     'allauth',
@@ -62,7 +65,9 @@ INSTALLED_APPS = [
 # REST_USE_JWT = True
 
 
-SITE_ID = 3
+SITE_ID = 5
+# SITE_ID = 8
+# SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -147,7 +152,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+    )
+}
 
 
 # Internationalization
@@ -286,4 +297,5 @@ SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 # LOGIN_URL = 'login'
 # LOGOUT_URL = 'logout'
 # LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = 'home'
 # LOGIN_REDIRECT_URL = 'home'

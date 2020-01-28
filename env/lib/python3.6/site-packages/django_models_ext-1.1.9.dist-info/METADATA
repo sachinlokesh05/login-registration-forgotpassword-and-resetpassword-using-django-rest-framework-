@@ -1,0 +1,49 @@
+Metadata-Version: 2.1
+Name: django-models-ext
+Version: 1.1.9
+Summary: Django Models Extensions
+Home-page: https://github.com/django-xxx/django-models-extensions
+Author: Hackathon
+Author-email: kimi.huang@brightcells.com
+License: UNKNOWN
+Keywords: Django Models Ext Extensions
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Office/Business :: Financial :: Spreadsheet
+Requires-Dist: TimeConvert
+
+========================
+django-models-extensions
+========================
+
+Django Models Extensions
+
+Installation
+============
+
+::
+
+    pip install django-models-ext
+
+
+Usage
+=====
+
+::
+
+    from django_models_ext import BaseModelMixin, upload_path, upload_file_url
+
+    class MyModel(BaseModelMixin):
+        upload = models.FileField(upload_to=upload_path)
+
+        @property
+        def upload_url(self):
+            return upload_file_url(self.upload)
+
+
+
