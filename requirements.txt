@@ -25,7 +25,7 @@ coreapi==2.3.3
 coreschema==0.0.4
 cryptography==2.8
 cssutils==1.0.2
-Django==1.11.11
+Django>1.11.11,<=3
 django-admin==2.0.0
 django-allauth==0.40.0
 django-bootstrap4==1.0.1
@@ -104,7 +104,7 @@ python-dateutil==2.8.1
 python-dotenv==0.10.3
 python-openid==2.2.5
 pytz==2019.3
-pyxdg==0.25
+pyxdg==0.26
 PyYAML==5.3
 query-string==2019.4.13
 request==2019.4.13
