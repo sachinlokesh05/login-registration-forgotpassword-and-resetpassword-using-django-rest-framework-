@@ -47,7 +47,7 @@ django-short-url==1.1.4
 django-six==1.0.4
 django-storages==1.8
 django-widget-tweaks==1.4.5
-djangorestframework==3.9.4
+djangorestframework==3.11.2
 docker==4.1.0
 docker-compose==1.25.2
 dockerpty==0.4.1
