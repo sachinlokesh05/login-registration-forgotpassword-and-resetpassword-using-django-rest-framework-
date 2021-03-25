@@ -105,7 +105,7 @@ python-dotenv==0.10.3
 python-openid==2.2.5
 pytz==2019.3
 pyxdg==0.25
-PyYAML==5.3
+PyYAML==5.4
 query-string==2019.4.13
 request==2019.4.13
 requests==2.22.0
