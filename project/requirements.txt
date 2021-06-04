@@ -5,7 +5,7 @@ CodeConvert==3.0.2
 coreapi==2.3.3
 coreschema==0.0.4
 defusedxml==0.6.0
-Django==2.2
+Django==2.2.21
 django-admin==2.0.0
 django-allauth==0.41.0
 django-custom-auth-user==0.1.2
