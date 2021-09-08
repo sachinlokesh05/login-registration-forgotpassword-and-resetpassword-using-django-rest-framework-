@@ -83,7 +83,7 @@ paramiko==2.7.1
 path.py==11.5.2
 pathlib==1.0.1
 pathlib2==2.3.5
-Pillow==6.2.1
+Pillow==8.3.2
 post==2019.4.13
 postman==0.6.0
 psycopg2==2.8.4
